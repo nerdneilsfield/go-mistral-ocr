@@ -1,4 +1,4 @@
-projectname := "go-template"
+projectname := "go-mistral-ocr"
 
 # 列出所有可用的命令
 default:
@@ -6,15 +6,19 @@ default:
 
 # 构建 Golang 二进制文件
 build:
-    go build -ldflags "-X main.version=$(git describe --abbrev=0 --tags)" -o {{projectname}}
+    @if [ "{{os()}}" = "windows" ]; then \
+        go build -ldflags "-X main.version=$(git describe --abbrev=0 --tags)" -o {{projectname}}_cli.exe cmd/cli/main.go; \
+    else \
+        go build -ldflags "-X main.version=$(git describe --abbrev=0 --tags)" -o {{projectname}}_cli cmd/cli/main.go; \
+    fi
 
 # 安装 Golang 二进制文件
 install:
-    go install -ldflags "-X main.version=$(git describe --abbrev=0 --tags)"
+    go install -ldflags "-X main.version=$(git describe --abbrev=0 --tags)" cmd/cli/main.go
 
 # 运行应用程序
 run:
-    go run -ldflags "-X main.version=$(git describe --abbrev=0 --tags)" main.go
+    go run -ldflags "-X main.version=$(git describe --abbrev=0 --tags)" cmd/cli/main.go
 
 # 安装构建依赖
 bootstrap:
@@ -27,7 +31,7 @@ test: clean
 
 # 清理环境
 clean:
-    rm -rf coverage.out dist {{projectname}} {{projectname}}.exe
+    rm -rf coverage.out dist {{projectname}}_cli {{projectname}}_cli.exe cli.exe gui.exe
 
 # 显示测试覆盖率
 cover:
@@ -36,7 +40,7 @@ cover:
 
 # 格式化 Go 文件
 fmt:
-    gofumpt -w .
+    gofumpt -w cmd/cli/main.go
     gci write .
 
 # 运行 linter

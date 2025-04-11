@@ -29,3 +29,8 @@ go.work.sum
 .idea/
 dist/
 go-template
+go-mistral-ocr_cli.exe
+go-mistral-ocr_cli
+go-mistral-ocr.zip
+configs/test.toml
+output/

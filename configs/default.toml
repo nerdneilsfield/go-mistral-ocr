@@ -1,0 +1,29 @@
+# Mistral OCR 配置文件
+
+# API配置
+# 支持多个API密钥轮询，程序会在每次API调用时随机选择一个密钥开始，然后轮流使用
+# 这有助于负载均衡和提高可靠性，当一个API密钥达到速率限制时可以自动切换到下一个
+api_keys = ["YOUR_API_KEY_HERE"]  # 在这里设置你的API密钥，或者使用MISTRAL_API_KEY环境变量
+
+# 支持多个API基础URL轮询，程序会在每次API调用时随机选择一个URL开始，然后轮流使用
+# 这有助于在某个API端点不可用时自动切换到备用端点
+base_urls = ["https://api.mistral.ai/v1/"]  # 可以添加多个备用API端点
+
+# 重试配置
+max_retries = 3  # API调用失败时的最大重试次数
+timeout = 60     # API调用超时时间（秒）
+retry_different_endpoint = true  # 当API调用失败时，是否尝试使用不同的端点重试
+
+# 输出配置
+output_dir = "./output"  # 输出目录，处理多个文件时会在此目录下为每个文件创建子目录
+include_images = true    # 是否包含图片
+default_output_format = "markdown"  # markdown 或 text
+continue_on_error = true  # 处理多个文件时，如果一个文件处理失败，是否继续处理其他文件
+
+# 日志配置
+log_level = "info"  # debug, info, warn, error
+log_file = ""      # 留空表示输出到控制台
+log_format = "console"  # console 或 json
+
+# GUI配置
+theme = "light"  # light 或 dark 
